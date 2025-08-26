@@ -8,6 +8,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 
+from rest_framework.views import APIView
+from emp.models import Emp
+from .serializers import EmpSerializer
+
 @api_view(["GET","POST"])
 def Home(request):
     if request.method == "GET":
@@ -50,3 +54,10 @@ def FetchByid(request,id):
     elif request.method == "DELETE":
         student.delete()
         return Response({"res":"Deleted record Successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+
+class Employees(APIView):
+    def get(self,request):
+        emp = Emp.objects.all()
+        serializer = EmpSerializer(emp,many=True)
+        return Response(serializer.data , status=status.HTTP_200_OK)
