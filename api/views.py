@@ -11,6 +11,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from emp.models import Emp
 from .serializers import EmpSerializer
+from django.http import Http404
 
 @api_view(["GET","POST"])
 def Home(request):
@@ -61,3 +62,25 @@ class Employees(APIView):
         emp = Emp.objects.all()
         serializer = EmpSerializer(emp,many=True)
         return Response(serializer.data , status=status.HTTP_200_OK)
+    
+    def post(self,request):
+        serializer = EmpSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors , status=status.HTTP_404_NOT_FOUND)
+    
+class EmployeeId(APIView):
+
+    def get_object(self,id):
+        try:
+            return Emp.objects.get(pk=id)
+        except Emp.DoesNotExist:
+            raise Http404
+        
+    def get(self,request,id):
+        serializer = EmpSerializer(self.get_object(id))
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+
+        
