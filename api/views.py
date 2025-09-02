@@ -81,6 +81,18 @@ class EmployeeId(APIView):
     def get(self,request,id):
         serializer = EmpSerializer(self.get_object(id))
         return Response(serializer.data,status=status.HTTP_200_OK)
+    
+    def put(self,request,id):
+        serializer = EmpSerializer(self.get_object(id),data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+        
+    def delete(self,request,id):
+        self.get_object(id).delete()
+        return Response({"res":"Deleted Succees"}, status=status.HTTP_200_OK)
 
 
         
