@@ -13,6 +13,10 @@ from emp.models import Emp
 from .serializers import EmpSerializer
 from django.http import Http404
 
+from rest_framework import mixins,generics
+
+#Traditional View Method
+
 @api_view(["GET","POST"])
 def Home(request):
     if request.method == "GET":
@@ -56,6 +60,7 @@ def FetchByid(request,id):
         student.delete()
         return Response({"res":"Deleted record Successfully"}, status=status.HTTP_204_NO_CONTENT)
 
+#Class Based Api View
 
 class Employees(APIView):
     def get(self,request):
@@ -94,5 +99,27 @@ class EmployeeId(APIView):
         self.get_object(id).delete()
         return Response({"res":"Deleted Succees"}, status=status.HTTP_200_OK)
 
+#Mixins Based View
 
-        
+class Empl(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+    queryset = Emp.objects.all()
+    serializer_class = EmpSerializer
+
+    def get(self,request):
+        return self.list(request)
+    
+    def post(self,request):
+        return self.create(request)
+
+class EmplID(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin,generics.GenericAPIView):
+    queryset = Emp.objects.all()
+    serializer_class = EmpSerializer
+
+    def get(self,request,pk):
+        return self.retrieve(request,pk)
+
+    def put(self,request,pk):
+        return self.update(request,pk)
+
+    def delete(self,request,pk):
+        return self.destroy(request,pk)    
