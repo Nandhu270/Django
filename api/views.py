@@ -99,6 +99,8 @@ class EmployeeId(APIView):
         self.get_object(id).delete()
         return Response({"res":"Deleted Succees"}, status=status.HTTP_200_OK)
 
+"""
+
 #Mixins Based View
 
 class Empl(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
@@ -123,3 +125,29 @@ class EmplID(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyM
 
     def delete(self,request,pk):
         return self.destroy(request,pk)    
+
+"""
+
+# Generic Api View
+"""
+class Empl(generics.ListAPIView, generics.CreateAPIView):
+    queryset = Emp.objects.all()
+    serializer_class = EmpSerializer
+(or)
+"""    
+class Empl(generics.ListCreateAPIView):
+    queryset = Emp.objects.all()
+    serializer_class = EmpSerializer
+
+"""
+class EmplID(generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
+    queryset = Emp.objects.all()
+    serializer_class = EmpSerializer
+    lookup_field = 'pk'
+(or)
+"""
+
+class EmplID(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Emp.objects.all()
+    serializer_class = EmpSerializer
+    lookup_field = 'pk'
