@@ -154,6 +154,12 @@ class EmplID(generics.RetrieveUpdateDestroyAPIView):
 
 """
 
+
+#ViewSet 
+
+#Method - 1 :
+"""
+
 class ViewEmployee(viewsets.ViewSet):
     def list(self,request):
         emp = Emp.objects.all()
@@ -184,3 +190,11 @@ class ViewEmployee(viewsets.ViewSet):
         emp = get_object_or_404(Emp, pk=pk)
         emp.delete()
         return Response(status=status.HTTP_200_OK)
+
+"""
+
+#mMethod - 2
+
+class ViewEmployee(viewsets.ModelViewSet):
+    queryset = Emp.objects.all()
+    serializer_class = EmpSerializer
