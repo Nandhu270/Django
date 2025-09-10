@@ -15,6 +15,9 @@ from django.http import Http404
 
 from rest_framework import mixins,generics,viewsets
 
+from blog.models import Blog,Comment
+from blog.serializers import BlogSerializer,CommentSerializer
+
 #Traditional View Method
 
 @api_view(["GET","POST"])
@@ -193,8 +196,29 @@ class ViewEmployee(viewsets.ViewSet):
 
 """
 
-#mMethod - 2
+#Method - 2
 
 class ViewEmployee(viewsets.ModelViewSet):
     queryset = Emp.objects.all()
     serializer_class = EmpSerializer
+
+
+# Nested Serializer
+
+class ViewBlog(generics.ListCreateAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+
+class ViewComment(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+class ViewDetailBlog(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+    lookup_field = 'pk'
+
+class ViewDetailComment(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    lookup_field = 'pk'
