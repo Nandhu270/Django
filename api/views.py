@@ -18,6 +18,8 @@ from rest_framework import mixins,generics,viewsets
 from blog.models import Blog,Comment
 from blog.serializers import BlogSerializer,CommentSerializer
 
+from .pagination import CustomPagination
+
 #Traditional View Method
 
 @api_view(["GET","POST"])
@@ -201,7 +203,7 @@ class ViewEmployee(viewsets.ViewSet):
 class ViewEmployee(viewsets.ModelViewSet):
     queryset = Emp.objects.all()
     serializer_class = EmpSerializer
-
+    pagination_class = CustomPagination
 
 # Nested Serializer
 
