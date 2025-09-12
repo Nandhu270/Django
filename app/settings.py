@@ -147,14 +147,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 #1. PageNumber Pagination
 
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS' : 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE' : '5',
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_PAGINATION_CLASS' : 'rest_framework.pagination.PageNumberPagination',
+#     'PAGE_SIZE' : 3,
+# }
 
 #2. LimitOffset Pagination
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PAGINATION_CLASS' : 'rest_framework.pagination.LimitOffsetPagination',
-#     'PAGE_SIZE' : '5',
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS' : 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE' : 3,
+}
