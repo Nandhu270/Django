@@ -20,6 +20,8 @@ from blog.serializers import BlogSerializer,CommentSerializer
 
 from .pagination import CustomPagination
 
+from emp.filters import EmpFilter
+
 
 #Traditional View Method
 
@@ -204,8 +206,9 @@ class ViewEmployee(viewsets.ViewSet):
 class ViewEmployee(viewsets.ModelViewSet):
     queryset = Emp.objects.all()
     serializer_class = EmpSerializer
-    pagination_class = CustomPagination
-    filterset_fields = ['designation']
+    # pagination_class = CustomPagination
+    # filterset_fields = ['designation']
+    filterset_class = EmpFilter
 
 # Nested Serializer
 
