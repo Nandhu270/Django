@@ -22,6 +22,8 @@ from .pagination import CustomPagination
 
 from emp.filters import EmpFilter
 
+from rest_framework.filters import SearchFilter,OrderingFilter
+
 
 #Traditional View Method
 
@@ -215,6 +217,9 @@ class ViewEmployee(viewsets.ModelViewSet):
 class ViewBlog(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['^title','content']
+    ordering_fields = ['id','title']
 
 class ViewComment(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
